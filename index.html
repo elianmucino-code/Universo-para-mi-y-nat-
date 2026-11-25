@@ -1,0 +1,694 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>En algún lugar del universo 💗</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+
+:root {
+    --rosa: #ff9fce;
+    --blanco: #fff5fc;
+    --morado: #b9a1ff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    color: var(--blanco);
+    background: #080719;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* FONDO ESPACIAL */
+
+.universo {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+        radial-gradient(ellipse at 20% 30%, #38205c 0%, transparent 45%),
+        radial-gradient(ellipse at 80% 70%, #381d55 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 50%, #171337 0%, #080719 75%);
+}
+
+#estrellas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.estrella-fondo {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: brillar 3s infinite alternate;
+}
+
+@keyframes brillar {
+    from { opacity: .2; transform: scale(.7); }
+    to { opacity: 1; transform: scale(1.3); }
+}
+
+/* PANTALLA PRINCIPAL */
+
+.pantalla {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 35px 20px;
+}
+
+.etiqueta {
+    color: #d7baff;
+    letter-spacing: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+}
+
+.titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(35px, 8vw, 66px);
+    font-weight: 500;
+    line-height: 1.2;
+    max-width: 750px;
+}
+
+.titulo span {
+    color: var(--rosa);
+    font-style: italic;
+}
+
+.subtitulo {
+    color: #c8bfdc;
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 450px;
+    margin: 22px auto;
+}
+
+.corazon {
+    font-size: 75px;
+    margin: 30px 0;
+    display: inline-block;
+    filter: drop-shadow(0 0 25px #ff7cbf);
+    animation: latido 1.7s infinite;
+}
+
+@keyframes latido {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.16); }
+}
+
+/* BOTONES */
+
+.boton {
+    border: 1px solid #e9a9d7;
+    background: linear-gradient(135deg, #d17bb9, #9378d9);
+    color: white;
+    padding: 14px 27px;
+    border-radius: 40px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .3s;
+    box-shadow: 0 0 25px #b96ca755;
+}
+
+.boton:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 35px #d88bdc99;
+}
+
+.boton-secundario {
+    background: transparent;
+    margin-top: 12px;
+}
+
+/* SECCIONES */
+
+.seccion {
+    display: none;
+    min-height: 100vh;
+    padding: 80px 20px;
+    text-align: center;
+    animation: aparecer 1s ease;
+}
+
+.seccion.activa {
+    display: block;
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.titulo-seccion {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 6vw, 48px);
+    margin-bottom: 15px;
+}
+
+.descripcion {
+    color: #c8bfdc;
+    line-height: 1.8;
+    max-width: 550px;
+    margin: 0 auto 35px;
+}
+
+/* ESTRELLAS INTERACTIVAS */
+
+.mapa-estrellas {
+    max-width: 750px;
+    margin: 45px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px 15px;
+}
+
+.estrella {
+    background: transparent;
+    border: none;
+    color: white;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    transition: .3s;
+}
+
+.estrella:hover {
+    transform: translateY(-8px) scale(1.05);
+}
+
+.estrella .icono {
+    font-size: 43px;
+    color: #ffe2a8;
+    filter: drop-shadow(0 0 15px #ffb8ec);
+    animation: flotar 3s infinite ease-in-out;
+}
+
+.estrella:nth-child(even) .icono {
+    animation-delay: 1s;
+}
+
+.estrella small {
+    color: #d8cbe9;
+    font-size: 12px;
+}
+
+@keyframes flotar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-9px); }
+}
+
+/* MENSAJE EMERGENTE */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    background: #050411dd;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal.visible {
+    display: flex;
+}
+
+.tarjeta {
+    max-width: 430px;
+    width: 100%;
+    background: linear-gradient(145deg, #292044, #17142f);
+    border: 1px solid #d89ad7;
+    border-radius: 25px;
+    padding: 40px 28px;
+    box-shadow: 0 0 50px #c66fc555;
+    animation: aparecer .5s ease;
+}
+
+.tarjeta .icono-grande {
+    font-size: 45px;
+    margin-bottom: 20px;
+}
+
+.tarjeta h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #ffc0e4;
+}
+
+.tarjeta p {
+    color: #e4d9ee;
+    line-height: 1.9;
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+/* DETALLES */
+
+.detalles {
+    max-width: 700px;
+    margin: 45px auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.detalle {
+    background: #ffffff0b;
+    border: 1px solid #ffffff20;
+    border-radius: 18px;
+    padding: 25px 18px;
+    transition: .3s;
+}
+
+.detalle:hover {
+    background: #ffffff18;
+    transform: translateY(-5px);
+}
+
+.detalle span {
+    font-size: 28px;
+}
+
+.detalle p {
+    color: #e5d9f0;
+    font-size: 14px;
+    line-height: 1.7;
+    margin-top: 12px;
+}
+
+.final {
+    max-width: 650px;
+    margin: 45px auto;
+    padding: 35px 25px;
+    background: #ffffff0b;
+    border: 1px solid #e4a4d455;
+    border-radius: 25px;
+}
+
+.final p {
+    line-height: 2;
+    color: #eee2f5;
+    margin: 18px 0;
+}
+
+.firma {
+    color: #ffb4dd !important;
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-style: italic;
+}
+
+.pie {
+    color: #988ba9;
+    font-size: 11px;
+    margin-top: 55px;
+}
+
+@media(max-width: 550px) {
+    .mapa-estrellas {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px 10px;
+    }
+
+    .detalles {
+        grid-template-columns: 1fr;
+    }
+
+    .seccion {
+        padding: 65px 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="universo"></div>
+<div id="estrellas"></div>
+
+<!-- INICIO -->
+
+<main id="inicio" class="pantalla">
+
+    <div class="etiqueta">✦ Pada demostrar que mi amor es GIGANTESCO  ✦</div>
+
+    <h1 class="titulo">
+        En algún lugar<br>
+        de este <span>universo...</span>
+    </h1>
+
+    <div class="corazon">💗</div>
+
+    <p class="subtitulo">
+        Existen millones de estrellas, miles de galaxias
+        y un montón de cosas increíbles allá afuera.
+        Pero hoy quiero enseñarte algo que hice pensando en ti.
+    </p>
+
+    <button class="boton" onclick="entrar()">
+        Descubrir mi universo ✨
+    </button>
+
+    <p class="pie">HECHO PARA MI ÑIÑA HERMOSA...</p>
+
+</main>
+
+
+<!-- SECCIÓN DE ESTRELLAS -->
+
+<section id="galaxia" class="seccion">
+
+    <div class="etiqueta">✦ galaxia de pequeños sentimientos ✦</div>
+
+    <h2 class="titulo-seccion">Unas cuantas razones...</h2>
+
+    <p class="descripcion">
+        Cada estrella guarda algo que me encanta de ti.
+        Toca las que quieras y descubre lo que esconden.
+    </p>
+
+    <div class="mapa-estrellas">
+
+        <button class="estrella" onclick="mostrarMensaje(0)">
+            <span class="icono">✦</span>
+            <small>Estrella 01</small>
+        </button>
+
+        <button class="estrella" onclick="mostrarMensaje(1)">
+            <span class="icono">✧</span>
+            <small>Estrella 02</small>
+        </button>
+
+        <button class="estrella" onclick="mostrarMensaje(2)">
+            <span class="icono">✦</span>
+            <small>Estrella 03</small>
+        </button>
+
+        <button class="estrella" onclick="mostrarMensaje(3)">
+            <span class="icono">✧</span>
+            <small>Estrella 04</small>
+        </button>
+
+        <button class="estrella" onclick="mostrarMensaje(4)">
+            <span class="icono">✦</span>
+            <small>Estrella 05</small>
+        </button>
+
+        <button class="estrella" onclick="mostrarMensaje(5)">
+            <span class="icono">✧</span>
+            <small>Estrella 06</small>
+        </button>
+
+    </div>
+
+    <button class="boton" onclick="irADetalles()">
+        Hay algo más que quiero enseñarte 💗
+    </button>
+
+</section>
+
+
+<!-- VENTANA DE MENSAJES -->
+
+<div class="modal" id="modal" onclick="cerrarSiFondo(event)">
+
+    <div class="tarjeta">
+
+        <div class="icono-grande">🌟</div>
+
+        <h3 id="tituloMensaje">Una pequeña razón</h3>
+
+        <p id="textoMensaje"></p>
+
+        <button class="boton" onclick="cerrarMensaje()">
+            Guardar en mi corazón 💗
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- SECCIÓN DE DETALLES -->
+
+<section id="detalles" class="seccion">
+
+    <div class="etiqueta">✦ cosas que quizás no sabes ✦</div>
+
+    <h2 class="titulo-seccion">
+        Hay detalles que<br>
+        nunca quiero pasar por alto.
+    </h2>
+
+    <p class="descripcion">
+    Todo lo bonito que siento no se compara con nada. ERES LO QUE MAS QUIERO EN ESTE Y OTROS UNIVERSOS 
+    </p>
+
+    <div class="detalles">
+
+        <div class="detalle">
+            <span>🌷</span>
+            <p>Me encanta tu manera de ser, Eres TAN increible que me gustaria pasar toda mi vida contigo </p>
+        </div>
+
+        <div class="detalle">
+            <span>🌙</span>
+            <p>Me gusta escucharte. Hasta las conversaciones más sencillas contigo tienen algo especial.</p>
+        </div>
+
+        <div class="detalle">
+            <span>✨</span>
+            <p>Admiro esa forma tan tuya de hacer que un momento normal se convierta en un recuerdo bonito. Ycon muchas experiencias</p>
+        </div>
+
+        <div class="detalle">
+            <span>💗</span>
+            <p>Me encanta que seas tú. No necesitas demostrar nada para que puedas ser una estrella en la obscuridad amor.</p>
+        </div>
+
+    </div>
+
+    <button class="boton" onclick="irAFinal()">
+        Llegamos a nuestra última estrella 🌌
+    </button>
+
+</section>
+
+
+<!-- FINAL -->
+
+<section id="final" class="seccion">
+
+    <div class="etiqueta">✦ hasta la última estrella ✦</div>
+
+    <h2 class="titulo-seccion">
+        Y si pudiera elegir<br>
+        un lugar en el universo...
+    </h2>
+
+    <div class="corazon">💗</div>
+
+    <div class="final">
+
+        <p>
+            Creo que elegiría cualquier lugar donde pudiera
+            seguir conociéndote, escuchándote y compartiendo
+            momentos contigo.
+        </p>
+
+        <p>
+            No hice esto porque las palabras me falten,
+            sino porque quería encontrar otra manera de
+            decirte lo mucho que te amo y que tengas un 
+            muy buen recurdo de mi.
+        </p>
+
+        <p>
+            Hay tantas estrellas como probabilidades, me alegra ser tu probabilidad
+            y tu mi estrella. te amo muchisimo amor, sin duda lo mejor que me ha pasado
+            en estos años de mi vida.
+        </p>
+
+        <p>
+            Gracias por llegar a mi vida
+            y gracias por hacr que todos mis dias 
+            tengan un motivo y un sentido para poder
+            verte sonreir.
+        </p>
+
+        <p class="firma">
+            Con muuuchisimo amor de tu novio para ti  💗
+        </p>
+
+    </div>
+
+    <button class="boton boton-secundario" onclick="volverInicio()">
+        Volver a nuestro universo ↺
+    </button>
+
+    <p class="pie">ESTE PEQUEÑO UNIVERSO FUE HECHO PENSANDO EN TI.</p>
+
+</section>
+
+
+<script>
+
+// CREAR ESTRELLAS DEL FONDO
+
+const fondo = document.getElementById("estrellas");
+
+for (let i = 0; i < 110; i++) {
+
+    const estrella = document.createElement("div");
+
+    estrella.className = "estrella-fondo";
+
+    const tamano = Math.random() * 3 + 1;
+
+    estrella.style.width = tamano + "px";
+    estrella.style.height = tamano + "px";
+
+    estrella.style.left = Math.random() * 100 + "%";
+    estrella.style.top = Math.random() * 100 + "%";
+
+    estrella.style.animationDelay = Math.random() * 3 + "s";
+
+    fondo.appendChild(estrella);
+}
+
+
+// TUS SEIS MENSAJES PERSONALIZABLES
+
+const mensajes = [
+
+    {
+        titulo: "Tu sonrisa 🌷",
+        texto: "Hay algo en tu sonrisa que simplemente me encanta. Es de esas cosas que pueden mejorar un día sin siquiera intentarlo."
+    },
+
+    {
+        titulo: "Tu manera de ser ✨",
+        texto: "Me encanta que tengas una manera tan única de ser. No tienes que intentar ser alguien más, porque siendo tú ya eres increíble."
+    },
+
+    {
+        titulo: "Tu forma de hablar 🌙",
+        texto: "Podría escucharte hablar de cualquier cosa durante horas por que nunca me casaria de lo hermosa que se ha vuelto tu voz para mi."
+    },
+
+    {
+        titulo: "Tus pequeños detalles 💗",
+        texto: "Me encantan esas pequeñas cosas que haces sin darte cuenta y que, de alguna manera, terminan alegrándome mi dia."
+    },
+
+    {
+        titulo: "Lo especial que eres 🪐",
+        texto: "Quizás no siempre te das cuenta de lo mucho que vales, pero quiero que sepas que hay alguien que ve muchísimas cosas bonitas en ti."
+    },
+
+    {
+        titulo: "Simplemente tú 💞",
+        texto: "De todas las cosas que podría mencionar, hay una que las resume: me encantas TODITAAAA."
+    }
+
+];
+
+
+// ABRIR Y CERRAR MENSAJES
+
+function mostrarMensaje(numero) {
+
+    document.getElementById("tituloMensaje").textContent =
+        mensajes[numero].titulo;
+
+    document.getElementById("textoMensaje").textContent =
+        mensajes[numero].texto;
+
+    document.getElementById("modal").classList.add("visible");
+}
+
+function cerrarMensaje() {
+    document.getElementById("modal").classList.remove("visible");
+}
+
+function cerrarSiFondo(event) {
+    if (event.target.id === "modal") {
+        cerrarMensaje();
+    }
+}
+
+
+// CAMBIAR DE SECCIÓN
+
+function mostrarSeccion(id) {
+
+    document.querySelectorAll(".seccion").forEach(seccion => {
+        seccion.classList.remove("activa");
+    });
+
+    document.getElementById("inicio").style.display = "none";
+
+    document.getElementById(id).classList.add("activa");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+function entrar() {
+    mostrarSeccion("galaxia");
+}
+
+function irADetalles() {
+    mostrarSeccion("detalles");
+}
+
+function irAFinal() {
+    mostrarSeccion("final");
+}
+
+function volverInicio() {
+
+    document.querySelectorAll(".seccion").forEach(seccion => {
+        seccion.classList.remove("activa");
+    });
+
+    document.getElementById("inicio").style.display = "flex";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+</script>
+
+</body>
+</html>
+ 
